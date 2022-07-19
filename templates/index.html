@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+	<script src="{{ url_for('static',filename='plotly.min.js') }}"></script>
+	<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+	<script type="text/javascript" id="MathJax-script" async
+	  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+	</script>
+</head>
+<body>
+	<p>Still in development</p>
+	<select id="choices">
+		<option value="p2d">Partcle in a 2-D square well</option>
+		<option value="p1d">Particle in a 1-D Infinite well</option>
+		<option value="orb">Atomic orbitals</option>
+	</select>
+	<form id="p2d" style="{{ p2dstyle }}" action="/2dsquarewell" method="post">
+		<label for="nx">Energy level of particle in X</label>
+		<input type="number" name="nx" min="1" max="20" required><br>
+		<label for="ny">Energy level of particle in Y</label>
+		<input type="number" name="ny" min="1" max="20" required><br>
+		<input type="radio" name="psi" value="psi" required>
+		<label for="psi">Wave function</label>
+		<input type="radio" name="psi" value="psisq">
+		<label for="psisq">Probability density</label>
+		<button type="submit">View</button>
+	</form>
+
+	<form id="p1d" style="{{ p1dstyle }}" action="/1dsquarewell" method="post">
+		<label for="n">Energy level of particle</label>
+		<input type="number" name="n" min="1" max="20" required><br>
+		<input type="radio" name="psi" value="psi" required>
+		<label for="psi">Wave function</label>
+		<input type="radio" name="psi" value="psisq">
+		<label for="psisq">Probability density</label>
+		<button type="submit">View</button>
+	</form>
+
+	<form id="orb" style="{{ orbstyle }}" onsubmit="return validateOrb()" action="/orb" method="post">
+		<label for="n">Principal quantum number (n)</label>
+		<input type="number" name="n" min="1" max="4" required><br>
+		<label for="l">Angular momentum/azimuthal quantum number (l)</label>
+		<input type="number" name="l" min="0" max="3" required><br>
+		<label for="m">Magnetic quantum number (m)</label>
+		<input type="number" name="m" min="-3" max="3" required><br>
+		<input type="radio" name="opq" value="opq" required>
+		<label for="opq">Opaque</label>
+		<input type="radio" name="opq" value="trs">
+		<label for="trs">Transparent</label>
+		<br>
+		<input type="radio" name="whole" value="whole" required>
+		<label for="whole">Whole</label>
+		<input type="radio" name="whole" value="crs">
+		<label for="crs">Cross Section</label>
+		<button type="submit">View</button>
+	</form>
+
+	<script src="{{ url_for('static', filename='script.js') }}"></script>
+	<script type="text/javascript">currChoiceInd = getCurrChoice({{ curr_choice_ind }});</script>
+	{{ s |safe }}
+</body>
+</html>
